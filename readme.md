@@ -1,71 +1,73 @@
-# Fibonacci in RISC-V
+# Fibonacci Sequence in RISC-V Assembly
 
-Files included:
-- `fibonacci_iter.s` — iterative implementation (RARS-style syscalls), with input validation and 32-bit overflow detection
-- `rars.jar` — a copy of the RARS simulator is included in this folder (run with `java -jar rars.jar`)
+This project demonstrates a simple iterative implementation of the Fibonacci sequence in RISC-V assembly, designed for educational purposes and easy testing with the RARS simulator.
 
-How to run (RARS — recommended)
+## Files
 
-1. The project folder includes a copy of RARS as `rars.jar`.
-2. Run RARS directly (PowerShell):
+- `fibonacci_iter.s`: Iterative Fibonacci implementation with input validation and 32-bit overflow detection.
+- `rars.jar`: RARS simulator (included for convenience).
+
+## How to Run
+
+1. Make sure you have Java installed.
+2. Open a terminal in this folder and run:
+
+	```powershell
+	java -jar rars.jar fibonacci_iter.s
+	```
+
+3. The program will display:
+
+	```
+	n =
+	```
+
+	Type an integer (digits only, you can use `+` or `-` for sign, spaces before the number are ignored) and press Enter.
+
+## What to Expect
+
+- The program reads your input as a string and checks if it is a valid integer. If you enter anything other than a valid integer (like letters or symbols), you'll see:
+
+	```
+	entrada invalida: somente inteiros
+	```
+
+- If the number is valid but too large for a 32-bit signed integer (for example, `47` for Fibonacci), you'll see:
+
+	```
+	overflow: resultado excede 32-bit
+	```
+
+- For valid inputs within range, the program prints the Fibonacci number for your input.
+
+### Examples
+
+- Input: `10` → Output: Fibonacci(10) (should print `55`)
+- Input: `47` → Output: `overflow: resultado excede 32-bit`
+- Input: `12a` → Output: `entrada invalida: somente inteiros`
+
+## Advanced Usage
+
+If you want to assemble and run the program using the RISC-V GNU toolchain or other simulators (like Spike or QEMU), you can use these commands:
 
 ```powershell
-java -jar rars.jar fibonacci_iter.s
-```
-
-3. When prompted `n =`, type an integer (digits only, optionally preceded by `+` or `-`; leading spaces are ignored) and press Enter. Note: the program presents only this prompt — there is no menu or option selection.
-
-Input validation and behavior
-
-- The program reads the input as a string and validates it character-by-character. Invalid characters (letters or other non-digit symbols besides an optional leading `+`/`-`) cause the program to print an error message and exit. The program currently prints the messages in Portuguese; exact outputs are shown below.
-
-Example invalid input output (exact text produced by the program):
-
-```
-entrada invalida: somente inteiros
-```
-
-- If the input is valid, it is converted to a signed 32-bit integer and used by the algorithm.
-
-- The program detects potential signed 32-bit overflow before performing additions that could exceed `2^31 - 1`. For example, Fibonacci(47) = 2971215073, which is greater than 2^31−1; in that case the program prints:
-
-```
-overflow: resultado excede 32-bit
-```
-
-Note: Without overflow checking, RV32 arithmetic would wrap and yield a negative number for such inputs. The code now detects and reports overflow instead.
-
-Examples of inputs and behavior
-- `10` → prints Fibonacci(10) (valid output)
-- `47` → prints `overflow: resultado excede 32-bit`
-- `12a` → prints `entrada invalida: somente inteiros`
-
-Using GNU toolchain + simulators (`spike` / `qemu`)
-
-- If you prefer to assemble and link with the RISC-V GNU toolchain, the examples above still apply for assembling and linking, but keep in mind that the program uses RARS-style syscall numbers. When running under `pk`/Linux the syscall numbers differ; you would need to adapt the I/O code or use C for I/O handling.
-
-Useful commands (PowerShell)
-
-```powershell
-# Run with RARS (quick and educational):
-java -jar rars.jar fibonacci_iter.s
-
-# Assemble + link with GNU toolchain (bare-metal example):
+# Assemble and link (bare-metal):
 riscv64-unknown-elf-as -march=rv32i -o fib.o fibonacci_iter.s
 riscv64-unknown-elf-ld -o fib.elf fib.o
 
-# Or using gcc with a linker script (if you have linker.ld):
+# Or with GCC and a linker script:
 riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -nostartfiles -T linker.ld -o fib.elf fibonacci_iter.s
 
-# Run on Spike with proxy-kernel 'pk' (requires pk):
+# Run with Spike (requires pk):
 spike pk fib.elf
 
-# Or run with QEMU (rv32 example):
+# Run with QEMU:
 qemu-system-riscv32 -nographic -machine sifive_u -kernel fib.elf
 ```
 
-Final notes
+**Note:** The program uses RARS-style syscalls for input/output. If you run it outside RARS, you may need to adapt the code for Linux syscalls or use C for I/O.
 
-- The implementations use RARS conventions to keep the examples simple and educational. If you want full support for running under `spike`/`qemu` with `pk`, or want the programs to use Linux syscalls directly, I can adapt the I/O routines.
-- If you would like me to add a minimal `linker.ld` and update `run_fib.ps1` to automate assemble/link/run steps, reply "yes" and I will add them.
+## About
+
+This project is intended for students and anyone interested in learning RISC-V assembly. The code is simple, well-commented, and ready to run in RARS. Feel free to experiment, modify, or use it as a starting point for your own RISC-V projects.
 
