@@ -12,39 +12,39 @@ This project demonstrates a simple iterative implementation of the Fibonacci seq
 1. Make sure you have Java installed.
 2. Open a terminal in this folder and run:
 
-	```powershell
-	java -jar rars.jar fibonacci_iter.s
-	```
+    ```powershell
+    java -jar rars.jar fibonacci_iter.s
+    ```
 
-3. The program will display:
+3. The program will display instructions and then:
 
-	```
-	n =
-	```
+    ```
+    Int Number=
+    ```
 
-	Type an integer (digits only, you can use `+` or `-` for sign, spaces before the number are ignored) and press Enter.
+    Type a positive integer (digits only, you can use `+` for sign, spaces before the number are ignored) and press Enter. Negative numbers or non-integers will be rejected.
 
 ## What to Expect
 
 - The program reads your input as a string and checks if it is a valid integer. If you enter anything other than a valid integer (like letters or symbols), you'll see:
 
-	```
-	entrada invalida: somente inteiros
-	```
+    ```
+    invalid input: only integers allowed
+    ```
 
 - If the number is valid but too large for a 32-bit signed integer (for example, `47` for Fibonacci), you'll see:
 
-	```
-	overflow: resultado excede 32-bit
-	```
+    ```
+    overflow: result exceeds 32-bit
+    ```
 
 - For valid inputs within range, the program prints the Fibonacci number for your input.
 
 ### Examples
 
-- Input: `10` → Output: Fibonacci(10) (should print `55`)
-- Input: `47` → Output: `overflow: resultado excede 32-bit`
-- Input: `12a` → Output: `entrada invalida: somente inteiros`
+- Input: `10` → Output: `55`
+- Input: `47` → Output: `overflow: result exceeds 32-bit`
+- Input: `12a` → Output: `invalid input: only integers allowed`
 
 ## Advanced Usage
 
@@ -70,4 +70,3 @@ qemu-system-riscv32 -nographic -machine sifive_u -kernel fib.elf
 ## About
 
 This project is intended for students and anyone interested in learning RISC-V assembly. The code is simple, well-commented, and ready to run in RARS. Feel free to experiment, modify, or use it as a starting point for your own RISC-V projects.
-
